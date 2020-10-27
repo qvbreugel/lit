@@ -1,18 +1,30 @@
-// Pin of connected power button
-int powerButton = 8;
-
 // Pin of the solenoid valve
 int solenoidValve = 4;
 
-//Pin of the connected LED
-int LED = 5;
+//Pin of the connected buzzer
+int buzzer = 5;
+
+// Pin of lighter
+int lighter = 7;
+
+// Pin of connected power button
+int powerButton = 8;
+
+
 
 
 void setup()
 {
-    pinMode(powerButton, INPUT);   //powerButton is input
-    pinMode(solenoidValve, INPUT); //solenoid valve is input
-    pinMode(LED, OUTPUT);          //LED is output
+    Serial.begin(9600);
+    pinMode(solenoidValve, OUTPUT);  //solenoid valve is input
+    pinMode(buzzer, OUTPUT);        //LED is output
+    pinMode(powerButton, INPUT);    //powerButton is input
+    pinMode(lighter, OUTPUT);    //Lighter is output
+    digitalWrite(solenoidValve, LOW);
+    digitalWrite(lighter, LOW);
+
+    beep();
+
 }
 
 void loop()
@@ -23,22 +35,30 @@ void loop()
     // Check if button is not pressed
     if (stateOfButton == 0)
     {
-        //Turn LED off if the button is not pressed
-        digitalWrite(LED, LOW);
-
-        //Close the valve if the button is not pressed
+        //Close the valve and lighter if the button is not pressed
         digitalWrite(solenoidValve, LOW);
+        digitalWrite(lighter, LOW);
     }
 
     // Check if button is pressed
     if (stateOfButton == 1)
     {
-        //Turn the LED on when button is pressed
-         digitalWrite(LED, HIGH);
-    
-        //Open valve when button is pressed
+        //Open valve and lighter when button is pressed
         digitalWrite(solenoidValve, HIGH);
-       
-
+        digitalWrite(lighter, HIGH);
     }
+}
+
+void beep(){
+    digitalWrite(buzzer, HIGH);
+    delay(500);
+    digitalWrite(buzzer, LOW);
+    delay(500);
+    digitalWrite(buzzer, HIGH);
+    delay(500);
+    digitalWrite(buzzer, LOW);
+    delay(500);
+    digitalWrite(buzzer, HIGH);
+    delay(500);
+    digitalWrite(buzzer, LOW);
 }
